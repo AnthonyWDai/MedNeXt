@@ -56,11 +56,8 @@ def restore_model(pkl_file, checkpoint=None, train=False, fp16=None):
     info = load_pickle(pkl_file)
     init = info['init']
     name = info['name']
-    search_in = [
-        join(nnunet_mednext.__path__[0], "training", "network_training")
-        join(nnunet_mednext.__path__[0], "training", "network_training", "MedNeXt")
-    ]
-    tr = recursive_find_python_class(search_in, name, current_module="nnunet_mednext.training.network_training")
+    search_in = join(nnunet_mednext.__path__[0], "training", "network_training")
+    tr = recursive_find_python_class([search_in], name, current_module="nnunet_mednext.training.network_training")
 
     if tr is None:
         """
@@ -147,7 +144,7 @@ def load_model_and_checkpoint_files(folder, folds=None, mixed_precision=None, ch
     trainer.initialize(False)
     all_best_model_files = [join(i, "%s.model" % checkpoint_name) for i in folds]
     print("using the following model files: ", all_best_model_files)
-    all_params = [torch.load(i, map_location=torch.device('cpu')) for i in all_best_model_files]
+    all_params = [torch.load(i, map_location=torch.device('cpu'), weights_only=False) for i in all_best_model_files]
     return trainer, all_params
 
 

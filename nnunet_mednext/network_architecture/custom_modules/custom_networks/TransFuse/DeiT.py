@@ -51,7 +51,7 @@ def deit_small_patch16_224(pretrained=False, **kwargs):
         norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        ckpt = torch.load('pretrained/deit_small_patch16_224-cd65a155.pth')
+        ckpt = torch.load('pretrained/deit_small_patch16_224-cd65a155.pth', weights_only=False)
         model.load_state_dict(ckpt['model'], strict=False)
     
     # I think they have a 12x16 position embedding for some reason
