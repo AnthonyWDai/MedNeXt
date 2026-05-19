@@ -243,7 +243,7 @@ def predict_cases(
 
         print("predicting", output_filename)
 
-        softmax = []
+        softmax_sum = None
         for p in params:
             trainer.load_checkpoint_ram(p, False)
             pred_softmax = trainer.predict_preprocessed_data_return_seg_and_softmax(
@@ -256,10 +256,13 @@ def predict_cases(
                 all_in_gpu=all_in_gpu,
                 mixed_precision=mixed_precision,
             )[1]
-            softmax.append(pred_softmax[None])
 
-        softmax = np.vstack(softmax)
-        softmax_mean = np.mean(softmax, 0)
+            if softmax_sum is None:
+                softmax_sum = pred_softmax.astype(np.float32, copy=False)
+            else:
+                softmax_sum += pred_softmax
+
+        softmax_mean = softmax_sum / len(params)
 
         transpose_forward = trainer.plans.get("transpose_forward")
         if transpose_forward is not None:
