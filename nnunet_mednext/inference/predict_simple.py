@@ -16,7 +16,7 @@
 import argparse
 import torch
 
-from nnunet_mednext.inference.predict import predict_from_folder
+from nnunet_mednext.inference.predictV2 import predict_from_folder
 from nnunet_mednext.paths import default_plans_identifier, network_training_output_dir, default_cascade_trainer, default_trainer
 from batchgenerators.utilities.file_and_folder_operations import join, isdir
 from nnunet_mednext.utilities.task_name_id_conversion import convert_id_to_task_name

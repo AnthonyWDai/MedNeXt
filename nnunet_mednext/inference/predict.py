@@ -205,7 +205,7 @@ def predict_cases(model, list_of_lists, output_filenames, folds, save_npz, num_t
     all_output_files = []
     for preprocessed in preprocessing:
         output_filename, (d, dct) = preprocessed
-        all_output_files.append(all_output_files)
+        all_output_files.append(output_filename)
         if isinstance(d, str):
             data = np.load(d)
             os.remove(d)
